@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Body, HTTPException, status
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
+
 from .model import UserModel, UpdateUserModel
 from database.pymongo_database import db
 
