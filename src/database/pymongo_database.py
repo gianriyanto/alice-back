@@ -21,4 +21,4 @@ def get_server():
 
 
 if __name__ == "__main__":
-    get_server()
+    logger.info(get_server())
