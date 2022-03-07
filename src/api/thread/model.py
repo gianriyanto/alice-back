@@ -23,7 +23,7 @@ class PyObjectId(ObjectId):
 class ResponseModel(BaseModel):
     # Respond to a thread, answer a question
     response: str = Field(...)
-    created_date = str = Field(...)
+    created_date: str = Field(...)
     created_by: UserModel = Field(...)
     plus_ones: int = Field(...)
     # tags: List[str] = Field(...)
@@ -49,7 +49,7 @@ class ResponseModel(BaseModel):
 
 
 class ThreadModel(BaseModel):
-    # Create a new thread, ask a new question
+    id: PyObjectId = Field(default_factory=PyObjectId, alias="_id")
     title: str = Field(...)
     description: str = Field(...)
     status: str = Field("open")  # open, closed
@@ -83,19 +83,19 @@ class ThreadModel(BaseModel):
                 "tags": ["tag_1", "tag_2"],
                 "channel": "this_channel",
                 "responses": [
-                    {
-                        "_id": "9923314c47c738b032cfd830",
-                        "response": "This is my answer",
-                        "description": "This is the explanation for my answer.",
-                        "created_date": "2022-03-07 21:23:20.127219",
-                        "created_by": {
-                            "_id": "6223314c47c738b032cfd829",
-                            "first_name": "Jane",
-                            "last_name": "Doe",
-                            "email": "jdoe@example.com"
-                        },
-                        "plus_ones": 0
-                    }
+                    # {
+                    #     "_id": "9923314c47c738b032cfd830",
+                    #     "response": "This is my answer",
+                    #     "description": "This is the explanation for my answer.",
+                    #     "created_date": "2022-03-07 21:23:20.127219",
+                    #     "created_by": {
+                    #         "_id": "6223314c47c738b032cfd829",
+                    #         "first_name": "Jane",
+                    #         "last_name": "Doe",
+                    #         "email": "jdoe@example.com"
+                    #     },
+                    #     "plus_ones": 0
+                    # }
                 ]
             }
         }
