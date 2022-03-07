@@ -25,7 +25,7 @@ class ResponseModel(BaseModel):
     response: str = Field(...)
     created_date: str = Field(...)
     created_by: UserModel = Field(...)
-    plus_ones: int = Field(...)
+    plus_ones: List[UserModel]
     # tags: List[str] = Field(...)
 
     class Config:
@@ -43,7 +43,7 @@ class ResponseModel(BaseModel):
                     "last_name": "Doe",
                     "email": "jdoe@example.com"
                 },
-                "plus_ones": 0
+                "plus_ones": []
             }
         }
 
@@ -55,8 +55,8 @@ class ThreadModel(BaseModel):
     status: str = Field("open")  # open, closed
     created_date: str = Field(...)
     created_by: UserModel = Field(...)
-    looks: int = Field(...)
-    plus_ones: int = Field(...)
+    looks: List[UserModel]
+    plus_ones: List[UserModel]
     tags: List[str]
     channel: str = Field(...)
     responses: List[ResponseModel]
@@ -77,9 +77,22 @@ class ThreadModel(BaseModel):
                     "last_name": "Smith",
                     "email": "dsmith@example.com"
                 },
-                "likes": 0,
-                "looks": 1,
-                "plus_ones": 2,
+                "looks": [
+                    {
+                        "_id": "8311314c47c738b032cfd354",
+                        "first_name": "Dave",
+                        "last_name": "Smith",
+                        "email": "dsmith@example.com"
+                    }
+                ],
+                "plus_ones": [
+                    {
+                        "_id": "8311314c47c738b032cfd354",
+                        "first_name": "Dave",
+                        "last_name": "Smith",
+                        "email": "dsmith@example.com"
+                    }
+                ],
                 "tags": ["tag_1", "tag_2"],
                 "channel": "this_channel",
                 "responses": [

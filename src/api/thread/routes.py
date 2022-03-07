@@ -20,13 +20,20 @@ async def create_thread(thread: ThreadModel = Body(...)):
     return JSONResponse(status_code=status.HTTP_201_CREATED, content=started_thread)
 
 
-@router.get("/threads")
-async def get_all_threads():
+@router.get("/threads/")
+async def get_threads(user_id: str, tag: str, channel: str, status: str):
+    # get threads by tag, channel, and status filter
+
+    # TODO: use projects to return necessary fields only
+    # e.g. db.inventory.find( { status: "A" }, { item: 1, status: 1 } )
+    # this will only return the item, and status
+
     raise NotImplementedError()
 
 
-@router.get("/thread/{thread_id}")
-async def get_thread():
+@router.get("/threads/{thread_id}")
+async def get_thread_details():
+    # get further details of a thread including its responses
     raise NotImplementedError()
 
 
