@@ -18,3 +18,18 @@ async def get_all_threads():
 @router.get("/thread/{thread_id}")
 async def get_thread():
     raise NotImplementedError()
+
+
+@router.post("/thread/{thread_id}")
+async def respond_to_thread():
+    raise NotImplementedError()
+
+
+@router.post("/thread/{thread_id}")
+async def react_to_thread():
+    raise NotImplementedError()
+
+
+@router.post("/thread/{thread_id}/response/{response_id}")
+async def react_to_response():
+    raise NotImplementedError()
