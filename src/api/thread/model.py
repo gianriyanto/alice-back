@@ -73,7 +73,6 @@ class ThreadModel(BaseModel):
                 "title": "Title of my thread",
                 "description": "Here's a bit of description for this thread",
                 "status": "open",
-                # "created_date": "2022-03-07 21:30:10.838420",
                 "created_by": {
                     "_id": "8311314c47c738b032cfd354",
                     "first_name": "Dave",
