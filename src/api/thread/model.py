@@ -2,6 +2,8 @@ from pydantic import BaseModel, Field
 from ..user.model import UserModel
 from typing import List
 from bson import ObjectId
+from enum import Enum
+from datetime import datetime
 
 
 class PyObjectId(ObjectId):
@@ -96,20 +98,29 @@ class ThreadModel(BaseModel):
                 ],
                 "tags": ["tag_1", "tag_2"],
                 "channel": "this_channel",
-                "responses": [
-                    # {
-                    #     "_id": "9923314c47c738b032cfd830",
-                    #     "response": "This is my answer",
-                    #     "description": "This is the explanation for my answer.",
-                    #     "created_date": "2022-03-07 21:23:20.127219",
-                    #     "created_by": {
-                    #         "_id": "6223314c47c738b032cfd829",
-                    #         "first_name": "Jane",
-                    #         "last_name": "Doe",
-                    #         "email": "jdoe@example.com"
-                    #     },
-                    #     "plus_ones": 0
-                    # }
-                ]
+                "responses": []
             }
         }
+
+
+class ActionEnum(str, Enum):
+    look = 'look'
+    plus_one = 'plus_one'
+
+
+class ReactionModel(BaseModel):
+    action: ActionEnum = Field(...)
+    reacted_at: str = Field(str(datetime.now()))
+    reacted_by: str = Field(...)
+
+    class Config:
+        allow_population_by_field_name = True
+        arbitrary_types_allowed = True
+        json_encoders = {ObjectId: str}
+        schema_extra = {
+            "example": {
+                "action": "look",
+                "reacted_by": "6225e6776d0399e384cc2762"
+            }
+        }
+
