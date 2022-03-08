@@ -22,10 +22,11 @@ class PyObjectId(ObjectId):
 
 class ResponseModel(BaseModel):
     # Respond to a thread, answer a question
+    id: PyObjectId = Field(default_factory=PyObjectId, alias="_id")
     response: str = Field(...)
     created_date: str = Field(...)
     created_by: UserModel = Field(...)
-    plus_ones: List[UserModel]
+    plus_ones: List[UserModel] = Field(...)
     # tags: List[str] = Field(...)
 
     class Config:
@@ -55,11 +56,11 @@ class ThreadModel(BaseModel):
     status: str = Field("open")  # open, closed
     created_date: str = Field(...)
     created_by: UserModel = Field(...)
-    looks: List[UserModel]
-    plus_ones: List[UserModel]
-    tags: List[str]
+    looks: List[UserModel] = Field(...)
+    plus_ones: List[UserModel] = Field(...)
+    tags: List[str] = Field(...)
     channel: str = Field(...)
-    responses: List[ResponseModel]
+    responses: List[ResponseModel] = Field(...)
 
     class Config:
         allow_population_by_field_name = True
@@ -110,5 +111,33 @@ class ThreadModel(BaseModel):
                     #     "plus_ones": 0
                     # }
                 ]
+            }
+        }
+
+
+class ThreadTestModel(BaseModel):
+    id: PyObjectId = Field(default_factory=PyObjectId, alias="_id")
+    title: str = Field(...)
+    description: str = Field(...)
+    status: str = Field("open")  # open, closed
+    created_date: str = Field(...)
+    created_by: UserModel
+
+    class Config:
+        allow_population_by_field_name = True
+        arbitrary_types_allowed = True
+        json_encoders = {ObjectId: str}
+        schema_extra = {
+            "example": {
+                "title": "Title of my thread",
+                "description": "Here's a bit of description for this thread",
+                "status": "open",
+                "created_date": "2022-03-07 21:30:10.838420",
+                "created_by": {
+                    "_id": "8311314c47c738b032cfd354",
+                    "first_name": "Dave",
+                    "last_name": "Smith",
+                    "email": "dsmith@example.com"
+                }
             }
         }

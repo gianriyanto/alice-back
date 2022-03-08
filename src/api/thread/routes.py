@@ -2,6 +2,8 @@ from fastapi import APIRouter, Body, HTTPException, status
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
 
+from typing import List
+
 from .model import ThreadModel
 from database.pymongo_database import db
 
@@ -20,15 +22,14 @@ async def create_thread(thread: ThreadModel = Body(...)):
     return JSONResponse(status_code=status.HTTP_201_CREATED, content=started_thread)
 
 
-@router.get("/threads/")
-async def get_threads(user_id: str, tag: str, channel: str, status: str):
-    # get threads by tag, channel, and status filter
+@router.get("/threads", response_description="Get a list of threads with filters", response_model=List[ThreadModel])
+async def get_threads(user_id: str = None, tag: str = None, channel: str = None, _status: str = None):
+    # TODO: get threads by tag, channel, and status filter
+    threads = list(db["threads"].find({}))
 
-    # TODO: use projects to return necessary fields only
-    # e.g. db.inventory.find( { status: "A" }, { item: 1, status: 1 } )
-    # this will only return the item, and status
-
-    raise NotImplementedError()
+    if not threads:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"No threads found")
+    return threads
 
 
 @router.get("/threads/{thread_id}")
