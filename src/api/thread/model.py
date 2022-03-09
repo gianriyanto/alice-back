@@ -25,11 +25,11 @@ class PyObjectId(ObjectId):
 class ResponseModel(BaseModel):
     # Respond to a thread, answer a question
     id: PyObjectId = Field(default_factory=PyObjectId, alias="_id")
-    response: str = Field(...)
-    created_date: str = Field(...)
+    body: str = Field(...)
+    created_date: str = Field(str(datetime.now()))
     created_by: UserModel = Field(...)
-    plus_ones: List[UserModel] = Field(...)
-    # tags: List[str] = Field(...)
+    plus_ones: List[str] = Field(...)
+    # verified: Boolean
 
     class Config:
         allow_population_by_field_name = True
@@ -37,9 +37,7 @@ class ResponseModel(BaseModel):
         json_encoders = {ObjectId: str}
         schema_extra = {
             "example": {
-                "response": "This is my answer",
-                "description": "This is the explanation for my answer.",
-                "created_date": "2022-03-07 21:23:20.127219",
+                "body": "This is my answer",
                 "created_by": {
                     "_id": "6223314c47c738b032cfd829",
                     "first_name": "Jane",
@@ -58,11 +56,11 @@ class ThreadModel(BaseModel):
     status: str = Field("open")  # open, closed
     created_date: str = Field(str(datetime.now()))
     created_by: UserModel = Field(...)
-    looked_by: List[str] = Field(...)
-    plus_oned_by: List[str] = Field(...)
+    looks: List[str] = Field(...)
+    plus_ones: List[str] = Field(...)
     tags: List[str] = Field(...)
     channel: str = Field(...)
-    responses: List[ResponseModel] = Field(...)
+    responses: dict = Field(...)
 
     class Config:
         allow_population_by_field_name = True
@@ -79,11 +77,11 @@ class ThreadModel(BaseModel):
                     "last_name": "Smith",
                     "email": "dsmith@example.com"
                 },
-                "looked_by": ["8311314c47c738b032cfd354"],
-                "plus_oned_by": ["8311314c47c738b032cfd354"],
+                "looks": [],
+                "plus_ones": [],
                 "tags": ["tag_1", "tag_2"],
                 "channel": "this_channel",
-                "responses": []
+                "responses": {}
             }
         }
 
@@ -94,9 +92,11 @@ class ActionEnum(str, Enum):
 
 
 class ReactionModel(BaseModel):
-    action: ActionEnum = Field(...)
+    action: str = Field(...)
     reacted_at: str = Field(str(datetime.now()))
     reacted_by: str = Field(...)
+    plus_ones_count: int = Field(0)
+    looks_count: int = Field(0)
 
     class Config:
         allow_population_by_field_name = True
@@ -104,8 +104,8 @@ class ReactionModel(BaseModel):
         json_encoders = {ObjectId: str}
         schema_extra = {
             "example": {
-                "action": "look",
-                "reacted_by": "6225e6776d0399e384cc2762"
+                "action": "plus_one",
+                "reacted_by": "6227df43aa9525f6f7171c10"
             }
         }
 
