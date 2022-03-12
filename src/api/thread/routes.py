@@ -22,10 +22,16 @@ async def create_thread(thread: ThreadModel = Body(...)):
     return JSONResponse(status_code=status.HTTP_201_CREATED, content=started_thread)
 
 
-@router.get("/threads", response_description="Get a list of threads with filters", response_model=List[ThreadModel])
-async def get_threads(user_id: str = None, tag: str = None, channel: str = None, _status: str = None):
-    # TODO: get threads by tag, channel, and status filter
-    threads = list(db["threads"].find({}))
+@router.get("/threads/", response_description="Get a list of threads with filters", response_model=List[ThreadModel])
+async def get_threads(user_id: str = None, tags: str = None, channel: str = None, thread_status: str = None):
+    threads = list(
+        db["threads"].find({
+            "tags": {"$in": [tags]} if tags else {"$ne": None},
+            "channel": channel or {"$ne": None},
+            "status": thread_status or {"$ne": None},
+            "created_by._id": user_id or {"$ne": None},
+        })
+    )
 
     if not threads:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="No threads found")
