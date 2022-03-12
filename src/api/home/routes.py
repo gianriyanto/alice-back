@@ -4,7 +4,7 @@ from database.pymongo_database import db
 router = APIRouter()
 
 
-@router.get("/channels", response_description="Get all unique thread channels")
+@router.get("/channels", response_description="Get all unique channels")
 async def get_channels():
     channels = db["threads"].distinct("tags")
     if not channels:
@@ -12,7 +12,7 @@ async def get_channels():
     return channels
 
 
-@router.get("/tags", response_description="Get all unique thread tags")
+@router.get("/tags", response_description="Get all unique tags")
 async def get_tags():
     tags = db["threads"].distinct("tags")
     if not tags:
