@@ -71,11 +71,7 @@ async def react_to_thread(thread_id: str, reaction: ReactionModel = Body(...)):
     raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=f"Failed to react to thread {thread_id}")
 
 
-# TODO: Unreact to Thread
-
-
-# @router.post("/thread/{thread_id}/response/{response_id}", response_description="", response_model=ReactionModel)
-# async def react_to_response(thread_id: str, response_id: str, reaction: ReactionModel = Body(...)):
-#     """ Users can react by 'look' or '+1' a thread's response """
-#     raise NotImplementedError()
-
+@router.post("/thread/{thread_id}/unreact", response_description="React to a thread", response_model=ReactionModel)
+async def unreact_to_thread(thread_id: str, reaction: ReactionModel = Body(...)):
+    # TODO: Create API for this...
+    raise NotImplementedError()
