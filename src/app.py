@@ -20,11 +20,13 @@ def create_app():
         debug=False
     )
 
-    # register middlewares
-    app.add_middleware(GZipMiddleware, minimum_size=10000)
+    origins = [
+        "http://localhost:3000"  # Fix CORS issue in front-end
+    ]
 
     app.add_middleware(
         CORSMiddleware,
+        allow_origins=origins,
         allow_credentials=True,
         allow_methods=["*"],
         allow_headers=["*"],

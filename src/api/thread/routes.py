@@ -22,7 +22,7 @@ async def create_thread(thread: ThreadModel = Body(...)):
     return JSONResponse(status_code=status.HTTP_201_CREATED, content=started_thread)
 
 
-@router.get("/threads/", response_description="Get a list of threads with filters", response_model=List[ThreadModel])
+@router.get("/threads", response_description="Get a list of threads with filters", response_model=List[ThreadModel])
 async def get_threads(user_id: str = None, tags: str = None, channel: str = None, thread_status: str = None):
     threads = list(
         db["threads"].find({

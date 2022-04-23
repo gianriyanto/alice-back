@@ -7,7 +7,7 @@ logger.setLevel(logging.INFO)
 
 
 CONN_STR = "mongodb+srv://alice:alice@cluster0.1oby8.mongodb.net/alice?retryWrites=true&w=majority"
-client = pymongo.MongoClient(CONN_STR, serverSelectionTimeoutMS=5000)
+client = pymongo.MongoClient(CONN_STR, serverSelectionTimeoutMS=10000)
 db = client["alice"]
 
 
