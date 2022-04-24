@@ -6,7 +6,7 @@ router = APIRouter()
 
 @router.get("/channels", response_description="Get all unique channels")
 async def get_channels():
-    channels = db["threads"].distinct("tags")
+    channels = db["threads"].distinct("channel")
     if not channels:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="No channels found")
     return channels
