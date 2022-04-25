@@ -38,6 +38,14 @@ async def get_threads(user_id: str = None, tags: str = None, channel: str = None
     return threads
 
 
+@router.get("/thread/{thread_id}", response_description="Get thread by id", response_model=ThreadModel)
+async def get_thread(thread_id: str):
+    thread = db["threads"].find_one({"_id": thread_id})
+    if not thread:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"No thread found with ID {thread_id}")
+    return thread
+
+
 @router.post("/thread/{thread_id}/respond", response_description="Respond to a thread", response_model=ResponseModel)
 async def respond_to_thread(thread_id: str, response: ResponseModel = Body(...)):
     response = jsonable_encoder(response)
