@@ -49,12 +49,17 @@ async def get_thread(thread_id: str):
 @router.post("/thread/{thread_id}/respond", response_description="Respond to a thread", response_model=ResponseModel)
 async def respond_to_thread(thread_id: str, response: ResponseModel = Body(...)):
     response = jsonable_encoder(response)
-    responded_thread = db["threads"].update({"_id": thread_id}, {"$set": {f"""responses.{response["_id"]}""": response}})
+    responded_thread = db["threads"].update({"_id": thread_id}, {
+        "$push": {"responses": response}
+    })
+
+    # ORMs don't enable the creation of Rich Domain models, it simplifies the amount of (often repetitive) work. Making your domain model anemic with all business logic in services won't save you from boilerplate DTO mapping code.
 
     if responded_thread["ok"]:
-        response = db["threads"].find_one({"_id": thread_id}, {"responses"})["responses"][response['_id']]
-        if response:
-            return response
+        # # TODO get responses with id = response._id
+        # responses = db["threads"].find_one({"_id": thread_id}, {"responses"})
+        # if responses:
+        return response
 
     raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=f"Failed to react to thread {thread_id}")
 

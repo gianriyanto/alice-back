@@ -60,7 +60,7 @@ class ThreadModel(BaseModel):
     plus_ones: List[str] = Field(...)
     tags: List[str] = Field(...)
     channel: str = Field(...)
-    responses: dict = Field(...)
+    responses: List[dict] = Field(...)
 
     class Config:
         allow_population_by_field_name = True
@@ -81,7 +81,7 @@ class ThreadModel(BaseModel):
                 "plus_ones": [],
                 "tags": ["tag_1", "tag_2"],
                 "channel": "this_channel",
-                "responses": {}
+                "responses": []
             }
         }
 
